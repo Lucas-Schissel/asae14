@@ -1,0 +1,76 @@
+.btn[type=button]{
+    margin-bottom: 5px;
+    margin: 5px;
+    width: 130px;   
+    border:1px solid #FFFFFF; 
+}
+
+.btn[type=button2]{
+    margin-bottom: 5px;
+    margin: 5px;
+    width: 100px;   
+    border:1px solid #FFFFFF; 
+}
+
+.dropdown-item{
+    background: #5A6268;
+    color: #fff;
+}
+.dropdown-menu{
+   background: #5A6268;
+}
+
+#conteudo{
+    border: 2px solid #5A6268;
+    border-radius: 5px;
+   
+}
+
+tr{
+    width: 100%;
+    display: inline-table;
+    table-layout: fixed;
+    }
+
+td{
+    vertical-align: middle;
+}
+    
+table{
+     height:420px;               
+    }
+
+tbody{
+      overflow-y: scroll;      
+      height: 370px;          
+      width: 98.2%;
+      position: absolute; 
+      text-align:center;
+    }
+
+#celula1{
+    width: 50px;
+}
+
+#celula2{
+    width: 140px;
+}
+
+#celula3{
+    width: 140px;
+}
+
+#celula4{
+    width: 100px;
+}
+
+#celula5{
+    width: 50px;
+}
+
+#input_vendas{
+    text-align:center;
+    min-width:50px;
+}
+
+
