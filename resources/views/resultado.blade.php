@@ -12,13 +12,13 @@
 <div>
 <BR>
 <BR>
-<h2>{{ $value = session()->get('nome')}}</h2>
+<h2>{{ $value = auth::user()->name}}</h2>
 <BR>
 <BR>
 <BR>
 <BR>
 <div class="text text-center" >
-    <h2> ASAE - 12 </h2>
+    <h2> ASAE - 14 </h2>
 <div>
 @push('marmita')
 

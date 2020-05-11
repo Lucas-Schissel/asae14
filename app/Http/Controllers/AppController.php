@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 use App\Cliente;
 use App\Produto;
 use App\Venda;
+use Auth;
 
 
 class AppController extends Controller
 
 {
 	function dashboard(){
-		if (session()->has("login")){			
+		if (Auth::check()){			
 			$cli = Cliente::All();
 			$clientes = count($cli);
 			$pdr = Produto::All();
@@ -23,21 +24,21 @@ class AppController extends Controller
 			$dinheiros = collect($vnd)->sum('valor');
 			return view("modal.dashboard")->with(compact('clientes','produtos','vendas','dinheiros'));
 		}
-		return view('tela_login');
+		return view('login');
 	}
 
 	function menu(){
-		if (session()->has("login")){			
+		if (Auth::check()){			
 		return view("resultado", ["mensagem" => "Bem Vindo"]);
 		}
-		return view('tela_login');
+		return view('login');
 	}
 
     function tela_login(){
-		if (session()->has("login")){
+		if (Auth::check()){
 			return redirect()->route('menu');
 		}
-			return view('tela_login');
+		return view('login');
 
     }
 
@@ -61,8 +62,8 @@ class AppController extends Controller
 	}
 
 	function logout(){
-		session()->forget('login');
-		return redirect()->route('tela_login');
+		Auth::logout();
+		return view('auth.login');
 	}
 
 }

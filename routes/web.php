@@ -27,8 +27,8 @@ Route::get('/usuario/listar', 'ClienteController@listar')
 Route::get('/tela_login', 'AppController@tela_login')
 	->name('tela_login');
 
-Route::post('/login', 'AppController@login')
-	->name('logar');
+//Route::post('/login', 'AppController@login')
+//	->name('logar');
 
 Route::get('/logout', 'AppController@logout')
 	->name('logout');
@@ -142,4 +142,6 @@ Route::get('/unidade/listar', 'unidadeController@listar')
 	->name('unidade_listar');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'AppController@menu')->name('menu');
+

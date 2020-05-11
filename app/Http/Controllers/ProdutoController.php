@@ -8,29 +8,30 @@ use App\Produto;
 use App\Categoria;
 use App\Unidade;
 use App\Venda;
+use Auth;
 
 class ProdutoController extends Controller
 {
     function telaCadastro(){
-        if (session()->has("login")){
+        if (Auth::check()){
             $categoria = Categoria::All();
             $unidade = Unidade::All();
 
             return view('telas_cadastro.cadastro_produtos',["ctg" => $categoria],["und" => $unidade]);
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function telaAlteracao($id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $pdr = Produto::find($id);
             return view("telas_updates.alterar_produto", [ "pdr" => $pdr ]);
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function adicionar(Request $req){
-        if (session()->has("login")){
+        if (Auth::check()){
             $nome = $req->input('nome');
             $preco = $req->input('preco');
             $categoria = $req->input('id_categoria');
@@ -49,11 +50,11 @@ class ProdutoController extends Controller
             }
             return ProdutoController::telaCadastro();
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function alterar(Request $req, $id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $pdr = Produto::find($id);
             $nome = $req->input('nome');
             $preco = $req->input('preco');
@@ -69,21 +70,21 @@ class ProdutoController extends Controller
 
             return ProdutoController::listar();
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function listar(){
-        if (session()->has("login")){
+        if (Auth::check()){
             $pdr = Produto::all();
             return view("listas.lista_produtos", [ "pdr" => $pdr ]);
             
 		}else{
-            return view('tela_login');
+            return view('auth.login');
         }
     }
 
     function excluir($id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $pdr = Produto::find($id);
 
             $var = DB::table('produtos_venda')->where('id_produto','=',$id)->first();
@@ -101,7 +102,7 @@ class ProdutoController extends Controller
             }
             return ProdutoController::listar();
         }else{
-            return view('tela_login');
+            return view('auth.login');
         }
 
 
