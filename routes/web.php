@@ -140,3 +140,6 @@ Route::get('/unidade/excluir/{id}', 'unidadeController@excluir')
 
 Route::get('/unidade/listar', 'unidadeController@listar')
 	->name('unidade_listar');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
