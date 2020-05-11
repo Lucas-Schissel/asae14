@@ -17,7 +17,11 @@ class VerificacaoAdmin
     public function handle($request, Closure $next)
     {
         if(!Auth::user()->ehAdmin()){
+            session([
+                'mensagem' =>'Voce nao tem permissao para isso!'
+            ]);
             return back();
+
         }
 
         return $next($request);
