@@ -10,15 +10,7 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function(){
 
-	//Area restrita aplicaçao.................................................................
-	Route::get('/menu', 'AppController@menu')
-	->name('menu');
-
-	Route::get('/dashboard', 'AppController@dashboard')
-	->name('dashboard');
-
-	Route::get('/logout', 'AppController@logout')
-	->name('logout');
+	Route::middleware(['admin'])->group(function(){
 
 	//Clientes................................................................................
 
@@ -56,9 +48,6 @@ Route::middleware(['auth'])->group(function(){
 
 	Route::get('/venda/{id}/itens', 'VendaController@itensVenda')
 	->name('vendas_itens');
-
-	Route::get('/venda/listar', 'VendaController@listar')
-	->name('venda_listar');
 
 	Route::get('/venda/validar/{id}', 'VendaController@validar')
 	->name('venda_validar');
@@ -100,9 +89,6 @@ Route::middleware(['auth'])->group(function(){
 	Route::get('/produto/excluir/{id}', 'ProdutoController@excluir')
 	->name('produto_delete');
 
-	Route::get('/produto/listar', 'ProdutoController@listar')
-	->name('produto_listar');
-
 	//Categorias................................................................................
 
 	Route::get('/categoria/cadastro', 'categoriaController@telaCadastro')
@@ -119,9 +105,6 @@ Route::middleware(['auth'])->group(function(){
 
 	Route::get('/categoria/excluir/{id}', 'categoriaController@excluir')
 	->name('categoria_delete');
-
-	Route::get('/categoria/listar', 'categoriaController@listar')
-	->name('categoria_listar');
 
 	//Unidades...................................................................................
 
@@ -140,8 +123,39 @@ Route::middleware(['auth'])->group(function(){
 	Route::get('/unidade/excluir/{id}', 'unidadeController@excluir')
 	->name('unidade_delete');
 
+	});
+
+	//Area restrita aplicaçao.................................................................
+	Route::get('/menu', 'AppController@menu')
+	->name('menu');
+
+	Route::get('/dashboard', 'AppController@dashboard')
+	->name('dashboard');
+
+	Route::get('/logout', 'AppController@logout')
+	->name('logout');
+
+	//Clientes..................................................................................
+	Route::get('/usuario/listar', 'ClienteController@listar')
+	->name('usuario_listar');
+
+	//Vendas....................................................................................
+	Route::get('/venda/listar', 'VendaController@listar')
+	->name('venda_listar');
+
+	//Produtos................................................................................
+	Route::get('/produto/listar', 'ProdutoController@listar')
+	->name('produto_listar');
+
+	//Categorias...............................................................................
+	Route::get('/categoria/listar', 'categoriaController@listar')
+	->name('categoria_listar');
+
+	//Unidades..................................................................................
 	Route::get('/unidade/listar', 'unidadeController@listar')
 	->name('unidade_listar');
+
+	
 });
 
 
