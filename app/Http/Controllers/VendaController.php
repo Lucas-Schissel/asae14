@@ -7,33 +7,34 @@ use Illuminate\Http\Request;
 use App\Venda;
 use App\Cliente;
 use App\Produto;
+use Auth;
 
 class VendaController extends Controller
 {
     function telaCadastro(){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$cliente = Cliente::all();
 			$produto = Produto::all();
 			return view ("telas_cadastro.cadastro_vendas",["pdr"=>$produto],["cli"=>$cliente]);
 		}
-			return view('tela_login');		
+			return view('auth.login');		
 	}
 	
 	function telaAdicionarItem($id){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$venda = Venda::find($id);
 			$produto = Produto::all();
 
 			return view('telas_cadastro.cadastro_itens')->with(compact('venda','produto'));
 			
 		}else{
-		return view('tela_login');
+			return view('auth.login');
 		}
 		
 	}
 	
     function adicionar(Request $req){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$id_usuario = $req->input('id_usuario');
 			
 			$vnd = new Venda();
@@ -49,13 +50,13 @@ class VendaController extends Controller
 			return redirect()->route('vendas_item_novo', ['id' => $vnd->id]);
 
 		}else{
-            return view('tela_login');
+            return view('auth.login');
         }
 
 	}
 	
 	function excluir($id){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$venda = Venda::find($id);
 
 			$var = DB::table('produtos_venda')->where('id_venda','=',$id)->first();
@@ -72,13 +73,13 @@ class VendaController extends Controller
 			}							
 			return 	VendaController::todasVendas($id);
 		}else{
-            return view('tela_login');
+            return view('auth.login');
         }
   
     }
 
     function vendasPorCliente($id){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$cliente= Cliente::find($id);
 			$vendas = Venda::all()->where('id_usuario',$id);
 			$total = collect($vendas)->sum('valor');
@@ -92,37 +93,37 @@ class VendaController extends Controller
 				return view("listas.lista_clientes", [ "cli" => $cliente ]);
 			}			
 		}
-		return view('tela_login');
+		return view('auth.login');
 	}
 
 	function todasVendas(){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$vendas = Venda::all();
 			$produtos = Produto::all();
 			$clientes = Cliente::all();
 			return view('listas.lista_todas_vendas')->with(compact('produtos','clientes','vendas'));
 		}
-		return view('tela_login');
+		return view('auth.login');
 	}
 
 	function listar(){
-		if (session()->has("login")){
+		if (Auth::check()){
 		$vendas = Venda::all();
 		return view('listas.lista_vendas_geral',['vendas' => $vendas]);
 		}
-		return view('tela_login');
+		return view('auth.login');
 	}
 
 	function itensVenda($id){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$venda = Venda::find($id);
 			return view('listas.lista_itens_venda', ['venda' => $venda]);
 		}
-		return view('tela_login');
+		return view('auth.login');
 	}
 
 	function adicionarItem(Request $req, $id){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$id_produto = $req->input('id_produto');
 			$qtd = $req->input('quantidade');
 			
@@ -143,12 +144,12 @@ class VendaController extends Controller
 			$venda->save();		
 			return redirect()->route('vendas_item_novo', ['id' => $venda->id]);
 		}else{
-			return view('tela_login');
+			return view('auth.login');
 		}
 	}
 
 	function excluirItem($id , $id_pivot){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$venda = Venda::find($id);
 			$subtotal = DB::table('produtos_venda')->where('id',$id_pivot)->value('subtotal');
 
@@ -158,13 +159,13 @@ class VendaController extends Controller
 
 			return redirect()->route('vendas_item_novo', ['id' => $venda->id]);
 		}else{
-			return view('tela_login');
+			return view('auth.login');
 		}
 
 	}
 
 	function excluirItemLista($id , $id_pivot){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$venda = Venda::find($id);
 			$subtotal = DB::table('produtos_venda')->where('id',$id_pivot)->value('subtotal');
 
@@ -179,13 +180,13 @@ class VendaController extends Controller
 				return redirect()->route('vendas_total');
 			}
 		}else{
-			return view('tela_login');
+			return view('auth.login');
 		}
 
 	}
 
 	function validar($id){
-		if (session()->has("login")){
+		if (Auth::check()){
 			$venda = Venda::find($id);
 			if(($venda->valor)>0){
 				return	VendaController::todasVendas();
@@ -195,7 +196,7 @@ class VendaController extends Controller
 				return	VendaController::todasVendas();
 			}
 		}else{
-		return view('tela_login');
+			return view('auth.login');
 		}
 	}
 

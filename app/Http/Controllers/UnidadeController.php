@@ -5,27 +5,28 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Unidade;
+use Auth;
 
 class UnidadeController extends Controller
 {
     
     function telaCadastro(){
-        if (session()->has("login")){
+        if (Auth::check()){
             return view('telas_cadastro.cadastro_unidades');
         }
-            return view('tela_login');
+        return view('auth.login');
     }
 
     function telaAlteracao($id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $unidade = Unidade::find($id);
             return view("telas_updates.alterar_unidade", [ "und" => $unidade ]);
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function adicionar(Request $req){
-        if (session()->has("login")){
+        if (Auth::check()){
             $nome = $req->input('nome');
                     
             $unidade = new Unidade();
@@ -38,11 +39,11 @@ class UnidadeController extends Controller
             }
             return UnidadeController::telaCadastro();
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function alterar(Request $req, $id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $unidade = Unidade::find($id);
             $nome = $req->input('nome');
 
@@ -56,21 +57,21 @@ class UnidadeController extends Controller
 
             return UnidadeController::listar();
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function listar(){
-        if (session()->has("login")){
+        if (Auth::check()){
             $unidade = Unidade::all();
             return view("listas.lista_unidades", [ "und" => $unidade ]);
             
 		}else{
-            return view('tela_login');
+            return view('auth.login');
         }
     }
 
     function excluir($id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $unidade = Unidade::find($id);
 
             $var = DB::table('produtos')->where('id_unidade','=',$id)->first();
@@ -89,7 +90,7 @@ class UnidadeController extends Controller
 
             return UnidadeController::listar();
         }else{
-            return view('tela_login');
+            return view('auth.login');
         }
     }
 }

@@ -6,23 +6,24 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Cliente;
 use App\Venda;
+use Auth;
 
 class ClienteController extends Controller
 {   
 
     function telaCadastro(){
-        if (session()->has("login")){
+        if (Auth::check()){
             session()->forget("login");
         }
     	return view("cadastro_clientes");
     }
 
     function telaAlteracao($id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $cliente = Cliente::find($id);
             return view("telas_updates.alterar_cliente", [ "cli" => $cliente ]);
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function adicionar(Request $req){
@@ -47,12 +48,12 @@ class ClienteController extends Controller
             } else {
                 echo  "<script>alert('Cliente $nome nao foi cadastrado!');</script>";
             }
-            return view('tela_login');
+            return view('auth.login');
         }
     }
 
     function alterar(Request $req, $id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $cli = Cliente::find($id);
 
             $nome_inicial = $cli->nome;
@@ -84,11 +85,11 @@ class ClienteController extends Controller
                 return  ClienteController::listar();
             }
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function excluir($id){
-        if (session()->has("login")){        
+        if (Auth::check()){     
                 $vendas = Venda::all()->where('id_usuario','=',$id);
 
                 if(count($vendas) > 0){
@@ -103,17 +104,17 @@ class ClienteController extends Controller
                 }
                 return  ClienteController::listar();
         }else{
-        return view('tela_login');
+            return view('auth.login');
         }
     
     }
 
     function listar(){
-        if (session()->has("login")){
+        if (Auth::check()){
             $cliente = Cliente::all();
             return view("listas.lista_clientes", [ "cli" => $cliente ]);
 		}else{
-            return view('tela_login');
+            return view('auth.login');
         }
         
     }
