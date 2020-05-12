@@ -81,12 +81,16 @@ class CategoriaController extends Controller
             $ctg = Categoria::find($id);
 
                 if ($ctg->delete()){
-                    echo  "<script>alert('Categoria $id excluída com sucesso');</script>";
+                    session([
+                        'mensagem' =>"Categoria: $ctg->nome , foi excluída com sucesso!"
+                    ]);
+                    return CategoriaController::listar();
                 } else {
-                    echo  "<script>alert('Categoria $id nao foi excluída!!!');</script>";
+                    session([
+                        'mensagem' =>"Categoria: $ctg->nome , nao foi excluída!"
+                    ]);
+                    return CategoriaController::listar();
                 }
-
-            return CategoriaController::listar();
             
         }else{
             return view('auth.login');
