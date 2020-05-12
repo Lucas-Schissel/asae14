@@ -18,7 +18,7 @@
 
         <div  class="col-md-8 mt-3 p-5">
 
-			<form method="post" action="{{ route('usuario_add') }}">
+			<form method="post" action="{{ route('cliente_add') }}">
 			@csrf							
 					<input type="text"  name="nome" placeholder="Digite um Nome . . ." required>
 					<br><br>

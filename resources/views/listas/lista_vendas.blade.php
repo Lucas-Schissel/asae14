@@ -60,7 +60,7 @@
 
 <div class= "row">
 	<div class="navbar-expand-lg navbar navbar-dark bg-dark w-100">
-		<a class="btn btn-secondary m-1 p-1" type="button2" href="{{ route('usuario_listar') }}">
+		<a class="btn btn-secondary m-1 p-1" type="button2" href="{{ route('cliente_listar') }}">
 			<i class="icon-left-circled"></i>
 			Voltar		
 		</a>

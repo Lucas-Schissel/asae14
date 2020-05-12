@@ -8,7 +8,7 @@
 </div>
 
 <div class="mt-2 p-2">
-	<form method="post" action="{{ route('usuario_alterar', ['id' => $cli->id]) }}">
+	<form method="post" action="{{ route('cliente_alterar', ['id' => $cli->id]) }}">
 		@csrf
 		<input type="text" class="form-control" name="nome" placeholder="Nome" value="{{ $cli->nome }}">
 		<br>
