@@ -13,9 +13,9 @@ class ClienteController extends Controller
 
     function telaCadastro(){
         if (Auth::check()){
-            session()->forget("login");
+            return view("telas_cadastro.cadastro_clientes");
         }
-    	return view("cadastro_clientes");
+        return view('auth.login');
     }
 
     function telaAlteracao($id){
@@ -35,7 +35,7 @@ class ClienteController extends Controller
 
         if($compara_login){
             echo  "<script>alert('O login: $login ja esta em uso!');</script>";
-            return view("cadastro_clientes");
+            return view("telas_cadastro.cadastro_clientes");
         }else{
 
             $cli = new Cliente();
@@ -48,7 +48,7 @@ class ClienteController extends Controller
             } else {
                 echo  "<script>alert('Cliente $nome nao foi cadastrado!');</script>";
             }
-            return view('auth.login');
+            return view("telas_cadastro.cadastro_clientes");
         }
     }
 

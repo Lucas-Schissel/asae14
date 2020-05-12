@@ -14,23 +14,23 @@ Route::middleware(['auth'])->group(function(){
 
 	//Clientes................................................................................
 
-	Route::get('/usuario/cadastro', 'ClienteController@telaCadastro')
-	->name('usuario_cadastro');
+	Route::get('/cliente/cadastro', 'ClienteController@telaCadastro')
+	->name('cliente_cadastro');
 
-	Route::get('/usuario/alterar/{id}', 'ClienteController@telaAlteracao')
-	->name('usuario_update');
+	Route::get('/cliente/alterar/{id}', 'ClienteController@telaAlteracao')
+	->name('cliente_update');
 
-	Route::post('/usuario/adicionar', 'ClienteController@adicionar')
-	->name('usuario_add');
+	Route::post('/cliente/adicionar', 'ClienteController@adicionar')
+	->name('cliente_add');
 
-	Route::post('/usuario/alterar/{id}', 'ClienteController@alterar')
-	->name('usuario_alterar');
+	Route::post('/cliente/alterar/{id}', 'ClienteController@alterar')
+	->name('cliente_alterar');
 
-	Route::get('/usuario/excluir/{id}', 'ClienteController@excluir')
-	->name('usuario_delete');
+	Route::get('/cliente/excluir/{id}', 'ClienteController@excluir')
+	->name('cliente_delete');
 
-	Route::get('/usuario/listar', 'ClienteController@listar')
-	->name('usuario_listar');
+	Route::get('/cliente/listar', 'ClienteController@listar')
+	->name('cliente_listar');
 
 	//Vendas.................................................................................
 
@@ -136,8 +136,8 @@ Route::middleware(['auth'])->group(function(){
 	->name('logout');
 
 	//Clientes..................................................................................
-	Route::get('/usuario/listar', 'ClienteController@listar')
-	->name('usuario_listar');
+	Route::get('/cliente/listar', 'ClienteController@listar')
+	->name('cliente_listar');
 
 	//Vendas....................................................................................
 	Route::get('/venda/listar', 'VendaController@listar')
