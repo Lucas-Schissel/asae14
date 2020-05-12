@@ -34,9 +34,13 @@ class CategoriaController extends Controller
             $ctg->descricao = $descricao;       
 
             if ($ctg->save()){
-                echo  "<script>alert('Categoria $nome adicionada com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Categoria: $nome, foi adicionada com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Categoria $nome nao foi adicionada!!!');</script>";
+                session([
+                    'mensagem' =>"Categoria: $nome, nao adicionada !!!"
+                ]);
             }
             return CategoriaController::telaCadastro();
         }
@@ -54,9 +58,13 @@ class CategoriaController extends Controller
             
         
             if ($ctg->save()){
-                echo  "<script>alert('Categoria $nome alterada com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Categoria: $nome, foi alterada com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Categoria $nome nao foi alterada!!!');</script>";
+                session([
+                    'mensagem' =>"Categoria: $nome, nao alterada !!!"
+                ]);
             }
 
             return CategoriaController::listar();

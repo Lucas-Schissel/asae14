@@ -27,15 +27,24 @@ class UnidadeController extends Controller
 
     function adicionar(Request $req){
         if (Auth::check()){
+
+            $req->validate([
+                'nome' => 'required|min:2',
+            ]);
+
             $nome = $req->input('nome');
                     
             $unidade = new Unidade();
             $unidade->nome = $nome;     
 
             if ($unidade->save()){
-                echo  "<script>alert('Unidade $nome adicionada com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Unidade: $unidade->nome , foi adicionada com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Unidade $nome nao foi adicionada!!!');</script>";
+                session([
+                    'mensagem' =>"Unidade: $unidade->nome , nao foi adicionada!!!"
+                ]);
             }
             return UnidadeController::telaCadastro();
         }
@@ -50,9 +59,13 @@ class UnidadeController extends Controller
             $unidade->nome = $nome;
             
             if ($unidade->save()){
-                echo  "<script>alert('Unidade $nome alterada com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Unidade: $unidade->nome , foi alterada com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Unidade $nome nao foi alterada!!!');</script>";
+                session([
+                    'mensagem' =>"Unidade: $unidade->nome , nao foi alterada!!!"
+                ]);
             }
 
             return UnidadeController::listar();

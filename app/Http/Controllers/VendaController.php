@@ -43,9 +43,13 @@ class VendaController extends Controller
 			
 
 			if ($vnd->save()){
-				echo  "<script>alert('Venda efetuada com Sucesso!');</script>";
+				session([
+					'mensagem' =>'Venda efetuada com Sucesso!'
+				]);
 			} else {
-				echo  "<script>alert('Venda nao efetuada!');</script>";
+				session([
+					'mensagem' =>'Venda nao efetuada!'
+				]);
 			}
 			return redirect()->route('vendas_item_novo', ['id' => $vnd->id]);
 
@@ -88,7 +92,9 @@ class VendaController extends Controller
 				return view('listas.lista_vendas')->with(compact('total','cliente','vendas'));
 
 			}else{
-				echo "<script>alert('Cliente $cliente->nome nao possui vendas!!!');</script>";
+				session([
+					'mensagem' =>"Cliente $cliente->nome nao possui vendas!"
+				]);
 				$cliente = Cliente::all();
 				return view("listas.lista_clientes", [ "cli" => $cliente ]);
 			}			
@@ -197,7 +203,9 @@ class VendaController extends Controller
 			if(($venda->valor)>0){
 				return	VendaController::todasVendas();
 			}else{
-				echo "<script>alert('Nao é possivel adicionar uma venda sem itens!!! A venda nao foi salva');</script>";
+				session([
+                    'mensagem' =>'Nao é possivel adicionar uma venda sem itens!!! A venda nao foi salva'
+                ]);
 				$venda->delete();
 				return	VendaController::todasVendas();
 			}
