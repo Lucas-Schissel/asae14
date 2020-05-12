@@ -44,9 +44,13 @@ class ProdutoController extends Controller
             $pdr->id_unidade = $und;
 
             if ($pdr->save()){
-                echo  "<script>alert('Produto $nome adicionado com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Produto: $nome, foi adicionado com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Produto $nome nao foi adicionado!!!');</script>";
+                session([
+                    'mensagem' =>"Produto: $nome, nao foi adicionado !!!"
+                ]);
             }
             return ProdutoController::telaCadastro();
         }
