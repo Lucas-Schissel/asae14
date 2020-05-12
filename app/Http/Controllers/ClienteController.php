@@ -90,19 +90,20 @@ class ClienteController extends Controller
 
     function excluir($id){
         if (Auth::check()){     
-                $vendas = Venda::all()->where('id_usuario','=',$id);
-
-                if(count($vendas) > 0){
-                    echo  "<script>alert('O cliente nao pode ser excluido pois existem vendas associadas');</script>";
-                }else{
+                
                     $cli = Cliente::find($id);
+                    
                     if ($cli->delete()){
-                        echo  "<script>alert('Cliente $id excluído com sucesso');</script>";
+                        session([
+                            'mensagem' =>"Cliente: $cli->nome ,foi excluído com sucesso!"
+                        ]);
+                        return ClienteController::listar();
                     } else {
-                        echo  "<script>alert('Cliente $id nao foi excluído!!!');</script>";
-                    }
-                }
-                return  ClienteController::listar();
+                        session([
+                            'mensagem' =>"Cliente: $cli->nome , nao foi excluído!"
+                        ]);
+                        return ClienteController::listar();
+                        }
         }else{
             return view('auth.login');
         }

@@ -77,13 +77,8 @@ class CategoriaController extends Controller
 
     function excluir($id){
         if (Auth::check()){
+
             $ctg = Categoria::find($id);
-
-            $var = DB::table('produtos')->where('id_categoria','=',$id)->first();
-
-            if($var){
-                echo  "<script>alert('A categoria nao pode ser excluida pois existem produtos associados');</script>"; 
-            }else{
 
                 if ($ctg->delete()){
                     echo  "<script>alert('Categoria $id excluída com sucesso');</script>";
@@ -91,9 +86,8 @@ class CategoriaController extends Controller
                     echo  "<script>alert('Categoria $id nao foi excluída!!!');</script>";
                 }
 
-            }
-
             return CategoriaController::listar();
+            
         }else{
             return view('auth.login');
         }
