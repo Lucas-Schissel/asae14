@@ -44,9 +44,13 @@ class ClienteController extends Controller
             $cli->senha = $senha;
 
             if ($cli->save()){
-                echo  "<script>alert('Cliente $nome cadastrado com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Cliente: $nome, foi adicionado com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Cliente $nome nao foi cadastrado!');</script>";
+                session([
+                    'mensagem' =>"Cliente: $nome, nao foi adicionado !!!"
+                ]);
             }
             return view("telas_cadastro.cadastro_clientes");
         }
@@ -76,11 +80,11 @@ class ClienteController extends Controller
 
                 if ($cli->save()){
                     session([
-                        'mensagem' =>"Cliente: $nome, foi adicionado com sucesso!"
+                        'mensagem' =>"Cliente: $nome, foi alterado com sucesso!"
                     ]);
                 } else {
                     session([
-                        'mensagem' =>"Cliente: $nome, nao foi adicionado !!!"
+                        'mensagem' =>"Cliente: $nome, nao foi alterado !!!"
                     ]);
                 }
                 return  ClienteController::listar();

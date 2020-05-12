@@ -59,9 +59,13 @@ class UnidadeController extends Controller
             $unidade->nome = $nome;
             
             if ($unidade->save()){
-                echo  "<script>alert('Unidade $nome alterada com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Unidade: $unidade->nome , foi alterada com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Unidade $nome nao foi alterada!!!');</script>";
+                session([
+                    'mensagem' =>"Unidade: $unidade->nome , nao foi alterada!!!"
+                ]);
             }
 
             return UnidadeController::listar();

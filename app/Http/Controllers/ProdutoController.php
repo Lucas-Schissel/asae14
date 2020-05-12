@@ -67,9 +67,13 @@ class ProdutoController extends Controller
             $pdr->nome = $nome;
         
             if ($pdr->save()){
-                echo  "<script>alert('Produto $nome alterado com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Produto: $nome, foi alterado com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Produto $nome nao foi alterado!!!');</script>";
+                session([
+                    'mensagem' =>"Produto: $nome, nao foi alterado !!!"
+                ]);
             }
 
             return ProdutoController::listar();
