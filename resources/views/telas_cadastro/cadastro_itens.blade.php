@@ -1,5 +1,17 @@
 @extends('template')
 @section('conteudo')
+
+@if ($errors->any())
+<div class="alert alert-danger">
+            <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                <br>
+            @endforeach
+            </ul>
+</div>
+@endif
+
 @if (session()->has('mensagem'))				
 				
 	<div class="modal fade" id="recado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

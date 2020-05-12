@@ -1,6 +1,36 @@
 @extends('template')
 @section('conteudo')
 
+@if ($errors->any())
+<div class="alert alert-danger">
+            <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                <br>
+            @endforeach
+            </ul>
+</div>
+@endif
+
+@if (session()->has('mensagem'))				
+				
+	<div class="modal fade" id="recado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body alert-info rounded">
+					<div>{{ session('mensagem')}}</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+    	$('#recado').modal('show')
+	</script>
+	{{session()->forget(['mensagem'])}}
+
+@endif
+
 <div class="row d-flex justify-content-center">
 		<h3>
 			Cadastro de Clientes
