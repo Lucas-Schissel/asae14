@@ -1,5 +1,23 @@
 @extends('template')
 @section('conteudo')
+@if (session()->has('mensagem'))				
+				
+	<div class="modal fade" id="recado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body alert-info rounded">
+					<div>{{ session('mensagem')}}</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+    	$('#recado').modal('show')
+	</script>
+	{{session()->forget(['mensagem'])}}
+
+@endif
 
 <div class= "row">
 	<span class="d-block p-2 bg-dark text-center text-white w-100">
@@ -37,7 +55,7 @@
 			 <i class="icon-arrows-cw"></i>
 			 </a>
 
-			 <a class="btn btn-danger mt-1" href="#" onclick="exclui({{ $p->id }})">
+			 <a class="delete btn btn-danger m-1" data-nome="{{ $p->nome}}" data-id="{{ $p->id}}">
 			 Excluir
 			 <i class="icon-trash-empty"></i>
 			 </a>
@@ -63,12 +81,33 @@
 	</div>
 </div>
 
+<div class="modal fade" id="excluir" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"></h5>
+        </button>
+      </div>
+      <div class="modal-body">
+		Deseja realmente excluir o produto, <span class="nome"></span>?
+        
+      </div>
+      <div class="modal-footer justify-content-center">
+		<a href="#" type="button" class="btn btn-outline-secondary delete-yes">Sim</a>
+		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-	function exclui(id){
-		if (confirm("Deseja excluir o produto de id: " + id + "?")){
-			location.href = "/produto/excluir/" + id;
-		}
-	}
+	$('.delete').on('click', function(){
+		var nome = $(this).data('nome');
+		var id = $(this).data('id'); 
+		$('span.nome').text(nome); 
+		$('a.delete-yes').attr('href', '/produto/excluir/' +id); 
+		$('#excluir').modal('show');
+	});
 </script>
 
 @endsection

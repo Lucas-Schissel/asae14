@@ -89,12 +89,16 @@ class ProdutoController extends Controller
             $pdr = Produto::find($id);
 
                 if ($pdr->delete()){
-                    echo  "<script>alert('Produto $id excluído com sucesso');</script>";
+                    session([
+                        'mensagem' =>"Produto: $pdr->nome ,foi excluído com sucesso!"
+                    ]);
+                    return ProdutoController::listar();
                 } else {
-                    echo  "<script>alert('Produto $id nao foi excluído!!!');</script>";
-                }
-
-            return ProdutoController::listar();
+                    session([
+                        'mensagem' =>"Produto: $pdr->nome , nao foi excluído!"
+                    ]);
+                    return ProdutoController::listar();
+                }           
             
         }else{
             return view('auth.login');
