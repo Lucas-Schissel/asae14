@@ -76,13 +76,16 @@ class UnidadeController extends Controller
             $unidade = Unidade::find($id);            
 
                 if ($unidade->delete()){
-                    echo  "<script>alert('Unidade $id excluída com sucesso');</script>";
+                    session([
+                        'mensagem' =>"Unidade: $unidade->nome , foi excluída com sucesso!"
+                    ]);
+                    return UnidadeController::listar();
                 } else {
-                    echo  "<script>alert('Undade $id nao foi excluída!!!');</script>";
-                }
-
-            return UnidadeController::listar();
-            
+                    session([
+                        'mensagem' =>"Unidade: $unidade->nome , nao foi excluída!"
+                    ]);
+                    return UnidadeController::listar();
+                }            
         }else{
             return view('auth.login');
         }
