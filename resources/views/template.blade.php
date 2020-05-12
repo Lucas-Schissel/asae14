@@ -174,7 +174,7 @@
 				<div class="modal fade" id="recado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
-					<div class="modal-body alert-danger">
+					<div class="modal-body alert-danger rounded">
 						<div>{{ session('mensagem')}}</div>
 					</div>
 					

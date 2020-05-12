@@ -57,21 +57,17 @@ class VendaController extends Controller
 	
 	function excluir($id){
 		if (Auth::check()){
+
 			$venda = Venda::find($id);
-
-			$var = DB::table('produtos_venda')->where('id_venda','=',$id)->first();
-
-            if($var){
-                echo  "<script>alert('O venda nao pode ser excluida pois tem itens associadas');</script>"; 
-            }else{	
 
 				if ($venda->delete()){
 					echo  "<script>alert('Venda $id excluída com sucesso');</script>";
 				} else {
 					echo  "<script>alert('Venda $id nao foi excluída!!!');</script>";
-				}	
-			}							
+				}
+
 			return 	VendaController::todasVendas($id);
+			
 		}else{
             return view('auth.login');
         }

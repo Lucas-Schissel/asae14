@@ -85,22 +85,21 @@ class ProdutoController extends Controller
 
     function excluir($id){
         if (Auth::check()){
+
             $pdr = Produto::find($id);
 
-            $var = DB::table('produtos_venda')->where('id_produto','=',$id)->first();
-
-            if($var){
-                echo  "<script>alert('O produto nao pode ser excluido pois existem vendas associadas');</script>"; 
-            }else{
-
                 if ($pdr->delete()){
-                    echo  "<script>alert('Produto $id excluído com sucesso');</script>";
+                    session([
+                        'mensagem' =>"Produto: $pdr->nome ,foi excluído com sucesso!"
+                    ]);
+                    return ProdutoController::listar();
                 } else {
-                    echo  "<script>alert('Produto $id nao foi excluído!!!');</script>";
-                }
-
-            }
-            return ProdutoController::listar();
+                    session([
+                        'mensagem' =>"Produto: $pdr->nome , nao foi excluído!"
+                    ]);
+                    return ProdutoController::listar();
+                }           
+            
         }else{
             return view('auth.login');
         }

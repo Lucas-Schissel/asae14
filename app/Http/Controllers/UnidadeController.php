@@ -72,23 +72,20 @@ class UnidadeController extends Controller
 
     function excluir($id){
         if (Auth::check()){
-            $unidade = Unidade::find($id);
 
-            $var = DB::table('produtos')->where('id_unidade','=',$id)->first();
-
-            if($var){
-                echo  "<script>alert('A unidade nao pode ser excluida pois existem produtos associados');</script>"; 
-            }else{
+            $unidade = Unidade::find($id);            
 
                 if ($unidade->delete()){
-                    echo  "<script>alert('Unidade $id excluída com sucesso');</script>";
+                    session([
+                        'mensagem' =>"Unidade: $unidade->nome , foi excluída com sucesso!"
+                    ]);
+                    return UnidadeController::listar();
                 } else {
-                    echo  "<script>alert('Undade $id nao foi excluída!!!');</script>";
-                }
-
-            }
-
-            return UnidadeController::listar();
+                    session([
+                        'mensagem' =>"Unidade: $unidade->nome , nao foi excluída!"
+                    ]);
+                    return UnidadeController::listar();
+                }            
         }else{
             return view('auth.login');
         }

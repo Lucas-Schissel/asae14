@@ -1,5 +1,23 @@
 @extends('template')
 @section('conteudo')
+@if (session()->has('mensagem'))				
+				
+	<div class="modal fade" id="recado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body alert-info rounded">
+					<div>{{ session('mensagem')}}</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+    	$('#recado').modal('show')
+	</script>
+	{{session()->forget(['mensagem'])}}
+
+@endif
 @if (count($cli) >0)   
 
 <div class= "row">
@@ -34,7 +52,7 @@
 			 <i class="icon-arrows-cw"></i>
 			 </a>
 
-			 <a class="btn btn-danger m-1" href="" data-toggle="modal" data-target="#excluir">
+			 <a class="delete btn btn-danger m-1" data-nome="{{ $c->nome}}" data-id="{{ $c->id}}">
 			 Excluir
 			 <i class="icon-trash-empty"></i>
 			 </a>
@@ -73,15 +91,26 @@
         </button>
       </div>
       <div class="modal-body">
-        Deseja excluir o usuario?
+		Deseja realmente excluir o cliente, <span class="nome"></span>?
+        
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-target="#finalizar">Nao</button>
-		<a class="btn btn-info" href="/usuario/excluir/{{ $c->id }}" >Sim</a>
+      <div class="modal-footer justify-content-center">
+		<a href="#" type="button" class="btn btn-outline-secondary delete-yes">Sim</a>
+		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+	$('.delete').on('click', function(){
+		var nome = $(this).data('nome');
+		var id = $(this).data('id'); 
+		$('span.nome').text(nome); 
+		$('a.delete-yes').attr('href', '/usuario/excluir/' +id); 
+		$('#excluir').modal('show');
+	});
+</script>
 
 @else
     <div class="alert alert-danger m-2">
