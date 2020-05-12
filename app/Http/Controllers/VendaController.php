@@ -61,12 +61,16 @@ class VendaController extends Controller
 			$venda = Venda::find($id);
 
 				if ($venda->delete()){
-					echo  "<script>alert('Venda $id excluída com sucesso');</script>";
+					session([
+                        'mensagem' =>"Produto: $venda->nome ,foi excluída com sucesso!"
+					]);
+					return 	VendaController::todasVendas($id);
 				} else {
-					echo  "<script>alert('Venda $id nao foi excluída!!!');</script>";
-				}
-
-			return 	VendaController::todasVendas($id);
+					session([
+                        'mensagem' =>"Venda: $venda->nome , nao foi excluída!"
+					]);
+					return 	VendaController::todasVendas($id);
+				}			
 			
 		}else{
             return view('auth.login');
@@ -153,6 +157,9 @@ class VendaController extends Controller
 			$venda->produtos()->wherePivot('id','=',$id_pivot)->detach();
 			$venda->save();
 
+			session([
+				'mensagem' =>"Item excluído com sucesso!"
+			]);
 			return redirect()->route('vendas_item_novo', ['id' => $venda->id]);
 		}else{
 			return view('auth.login');
@@ -169,6 +176,9 @@ class VendaController extends Controller
 			$venda->produtos()->wherePivot('id','=',$id_pivot)->detach();
 			$venda->save();
 			$var = DB::table('produtos_venda')->where('id_venda','=',$id)->first();
+			session([
+				'mensagem' =>"Item excluído com sucesso!"
+			]);
 			if($var){
 				return view('listas.lista_itens_venda', ['venda' => $venda]);
 			}else{
