@@ -43,13 +43,13 @@ class VendaController extends Controller
 			
 
 			if ($vnd->save()){
-				session([
-					'mensagem' =>'Venda efetuada com Sucesso!'
-				]);
+				//session([
+					//'mensagem' =>'Venda efetuada com Sucesso!'
+				//]);
 			} else {
-				session([
-					'mensagem' =>'Venda nao efetuada!'
-				]);
+				//session([
+				//	'mensagem' =>'Venda nao efetuada!'
+				//]);
 			}
 			return redirect()->route('vendas_item_novo', ['id' => $vnd->id]);
 
