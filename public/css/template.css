@@ -74,4 +74,7 @@ tbody{
     min-width:50px;
 }
 
+.select:required:invalid {
+    color: gray;
+  }
 
