@@ -13,11 +13,11 @@
 <div class="container">
     <div class="row text-center p-5">
 
-        <div class="col-md-2 col-sm-2 col-2 mt-4 p-5">
+        <div class="col-lg-2 col-md-0 col-sm-0 col-0">
 			<!-- coluna vazia esquerda -->
 		</div>
 
-        <div  class="col-md-8 col-sm-8 col-8 mt-4 p-5 border border-success rounded">
+        <div  class="col-lg-8 col-md-12 col-sm-12 col-12 mt-4 p-5 border border-success rounded">
 
 			<form method="post" action="{{ route('cliente_add') }}">
 			@csrf					
@@ -35,7 +35,7 @@
 
         </div>
 			
-		<div class="col-md-2 col-sm-2 col-2 mt-4 p-5 ">
+		<div class="col-lg-2 col-md-0 col-sm-0 col-0">
 			<!-- coluna vazia direita -->
 		</div>
 

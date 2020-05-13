@@ -165,10 +165,10 @@
      </div>
 		
 		<div class = "row">
-			<div class = "col-md-2 col-sm-2 col-0">
+			<div class = "col-md-2 col-sm-0 col-0">
 				<!-- coluna vazia esquerda -->
 			</div>
-			<div id="conteudo" class = "col-md-8 col-sm-8 col-12 mt-2">
+			<div id="conteudo" class = "col-md-8 col-sm-12 col-12 mt-2">
 
 			@if ($errors->any())
 			<div class="modal fade" id="recado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -214,7 +214,7 @@
 			@yield('conteudo')
 			
 			</div>
-			<div class = "col-md-2 col-sm-2 col-0">
+			<div class = "col-md-2 col-sm-0 col-0">
 				<!-- coluna vazia direita -->
 			</div>
 		</div>
