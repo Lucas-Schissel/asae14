@@ -165,16 +165,37 @@
      </div>
 		
 		<div class = "row">
-			<div class = "col-md-2">
+			<div class = "col-md-2 col-sm-0 col-0">
 				<!-- coluna vazia esquerda -->
 			</div>
-			<div id="conteudo" class = "col-md-8 mt-2">
-				@if (session()->has('mensagem'))				
+			<div id="conteudo" class = "col-md-8 col-sm-12 col-12 mt-2">
+
+			@if ($errors->any())
+			<div class="modal fade" id="recado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-body alert-danger rounded">
+							<ul>
+								@foreach ($errors->all() as $error)
+								<li>{{ $error }}</li>
+								@endforeach
+							</ul>
+						</div>						
+					</div>
+				</div>
+			</div>
+
+			<script type="text/javascript">
+			$('#recado').modal('show')
+			</script>
+			@endif
+
+			@if (session()->has('mensagem'))				
 				
 				<div class="modal fade" id="recado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered" role="document">
 					<div class="modal-content">
-					<div class="modal-body alert-danger rounded">
+					<div class="modal-body alert-info rounded">
 						<div>{{ session('mensagem')}}</div>
 					</div>
 					
@@ -188,10 +209,12 @@
 				</script>
 				{{session()->forget(['mensagem'])}}
 
-				@endif
-				@yield('conteudo')
+			@endif
+
+			@yield('conteudo')
+			
 			</div>
-			<div class = "col-md-2">
+			<div class = "col-md-2 col-sm-0 col-0">
 				<!-- coluna vazia direita -->
 			</div>
 		</div>

@@ -1,27 +1,5 @@
 @extends('template')
 @section('conteudo')
-@stack('msg')
-
-@if ($errors->any())
-<div class="modal fade" id="recado" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-body alert-danger rounded">
-				<ul>
-					@foreach ($errors->all() as $error)
-					<li>{{ $error }}</li>
-					<br>
-					@endforeach
-				</ul>
-			</div>						
-		</div>
-	</div>
-</div>
-
-<script type="text/javascript">
-$('#recado').modal('show')
-</script>
-@endif
 
 	<div class= "row">
 		<span class="d-block bg-dark text-center text-white w-100">
@@ -60,6 +38,7 @@ $('#recado').modal('show')
 		
 			<div class="row m-2 p-2">
 				<select class="custom-select" name="id_produto">
+				<option value="" disabled selected>Escolha uma produto:</option>
 				@foreach ($produto as $p)
 				<option value="{{ $p->id}}">{{$p->nome." ".$p->preco." ".$p->unidades->nome}}</option>
 				@endforeach
@@ -101,26 +80,28 @@ $('#recado').modal('show')
 	</form>
 
 	<div class="row">
-			<table class="table table-bordered table-hover mt-1">
-				<thead class="thead-dark">
-					<tr>
-						<th id="celula1">ID</th>
-						<th id="celula2">Nome</th>
-						<th id="celula2">Quantidade</th>
-						<th id="celula2">Valor Und</th>
-						<th id="celula2">Subtotal</th>
-						<th>Açoes</th>
-					</tr>
-				</thead>
+			
+		<div class="container bg-dark text-left text-white ml-1 mt-1 mr-3 p-1">
+			<div class="row col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="col-lg-2 col-md-2 col-sm-2 col-2" > ID</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-2" > Nome</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-2" > Qtd</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-2" > Valor</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-2" > Subtotal</div>
+				<div class="col-lg-2 col-md-2 col-sm-2 col-2" > Açoes</div>
+			</div>
+		</div>
+					
+			<table class="table table-bordered table-hover ml-1">
 				<tbody>
 					@foreach($venda->produtos as $p)
 					
 					<tr>
-						<td id="celula1">{{$p->pivot->id}}</td>
-						<td id="celula2">{{$p->nome}}</td>
-						<td id="celula2">{{$p->pivot->quantidade}}</td>
-						<td id="celula2">R$ {{$p->preco}}</td>
-						<td id="celula2">R$ {{$p->pivot->subtotal}}</td>
+						<td >{{$p->pivot->id}}</td>
+						<td >{{$p->nome}}</td>
+						<td >{{$p->pivot->quantidade}}</td>
+						<td >R$ {{$p->preco}}</td>
+						<td >R$ {{$p->pivot->subtotal}}</td>
 						<td>
 							<a class="delete btn btn-danger m-1" data-nome="{{ $p->nome}}" data-id="{{ $p->pivot->id}}">
 							<i class="icon-trash-empty"></i>
