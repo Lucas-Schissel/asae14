@@ -32,6 +32,12 @@ class ProdutoController extends Controller
 
     function adicionar(Request $req){
         if (Auth::check()){
+
+            $req->validate([
+                'nome' => 'required|min:2',
+                'preco' => 'required|numeric',
+            ]);
+
             $nome = $req->input('nome');
             $preco = $req->input('preco');
             $categoria = $req->input('id_categoria');
@@ -59,6 +65,12 @@ class ProdutoController extends Controller
 
     function alterar(Request $req, $id){
         if (Auth::check()){
+
+            $req->validate([
+                'nome' => 'required|min:2',
+                'preco' => 'required|numeric',
+            ]);
+
             $pdr = Produto::find($id);
             $nome = $req->input('nome');
             $preco = $req->input('preco');

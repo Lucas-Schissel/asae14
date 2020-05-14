@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Unidade;
 use Auth;
@@ -28,7 +27,7 @@ class UnidadeController extends Controller
     function adicionar(Request $req){
         if (Auth::check()){
 
-            $req->validate([
+           $req->validate([
                 'nome' => 'required|min:2',
             ]);
 

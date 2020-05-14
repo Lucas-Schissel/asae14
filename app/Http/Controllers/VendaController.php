@@ -35,6 +35,9 @@ class VendaController extends Controller
 	
     function adicionar(Request $req){
 		if (Auth::check()){
+			$req->validate([
+				'id_usuario' => 'required',
+			]);
 			$id_usuario = $req->input('id_usuario');
 			
 			$vnd = new Venda();
@@ -130,25 +133,38 @@ class VendaController extends Controller
 
 	function adicionarItem(Request $req, $id){
 		if (Auth::check()){
+			$req->validate([
+				'id_produto' => 'required',
+				'quantidade' => 'required',
+			]);
+
 			$id_produto = $req->input('id_produto');
 			$qtd = $req->input('quantidade');
 			
 			$quantidade = intval($qtd);
 
-			$produto = Produto::find($id_produto);
-			$venda = Venda::find($id);
-			$subtotal = $produto->preco * $quantidade;
+				$produto = Produto::find($id_produto);
+				$venda = Venda::find($id);
+				$subtotal = $produto->preco * $quantidade;
 
-			$colunas_pivot = [
-					'quantidade' => $quantidade,
-					'subtotal' => $subtotal
-			];
+				$colunas_pivot = [
+						'quantidade' => $quantidade,
+						'subtotal' => $subtotal
+				];
 
+				if($quantidade <1){
+					session([
+						'mensagem' =>"A quantidade deve ser maior que 0"
+					]);					
+					return redirect()->route('vendas_item_novo', ['id' => $venda->id]);
+				}
+
+				
+				$venda->produtos()->attach($produto->id, $colunas_pivot);
+				$venda->valor += $subtotal;
+				$venda->save();
+				return redirect()->route('vendas_item_novo', ['id' => $venda->id]);
 			
-			$venda->produtos()->attach($produto->id, $colunas_pivot);
-			$venda->valor += $subtotal;
-			$venda->save();		
-			return redirect()->route('vendas_item_novo', ['id' => $venda->id]);
 		}else{
 			return view('auth.login');
 		}
