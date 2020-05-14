@@ -26,6 +26,12 @@ class CategoriaController extends Controller
 
     function adicionar(Request $req){
         if (Auth::check()){
+
+            $req->validate([
+                'nome' => 'required|min:5',
+                'descricao' => 'required|min:5',
+            ]);
+
             $nome = $req->input('nome');
             $descricao = $req->input('descricao');
                     
@@ -49,6 +55,12 @@ class CategoriaController extends Controller
 
     function alterar(Request $req, $id){
         if (Auth::check()){
+
+            $req->validate([
+                'nome' => 'required|min:5',
+                'descricao' => 'required|min:5',
+            ]);
+
             $ctg = Categoria::find($id);
             $nome = $req->input('nome');
             $descricao = $req->input('descricao');

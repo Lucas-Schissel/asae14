@@ -22,9 +22,8 @@
 
 			<div class="mt-2 p-2">
 				<form method="post" action="{{ route('unidade_add') }}">
-					@csrf
-					
-					<input type="text" class="form-control border border-success rounded" name="nome" placeholder="Digite um nome">
+					@csrf					
+					<input type="text" class="form-control border border-success rounded" name="nome" placeholder="Digite um nome" required>
 					<div class="mt-3"></div>
 					
 					<button class="btn btn-success btn-block"  type="submit">

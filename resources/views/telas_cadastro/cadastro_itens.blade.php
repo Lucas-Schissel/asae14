@@ -130,13 +130,6 @@
 	}
 
 </script>
-<script>
-	function exclui(id){
-		if (confirm("Deseja excluir o item de id: " + id + "?")){
-			location.href = "/venda/{{ $venda->id }}/itens/remover/" + id;
-		}
-	}
-</script>
 
 <div class="modal fade" id="excluir" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -167,22 +160,18 @@
 	});
 </script>
 
-<!-- Modal -->
-<div class="modal fade" id="finalizar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-md" id="finalizar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel"></h5>
-        </button>
-      </div>
-      <div class="modal-body">
+      <div class="modal-body text-center">
         Deseja Encerrar a Venda?
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nao</button>
-		<a class="btn btn-info" href="/venda/validar/{{ $venda->id }}" >Sim</a>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Nao</button>
+		<a type="button" class="btn btn-outline-secondary" href="/venda/validar/{{ $venda->id }}" >Sim</a>
       </div>
     </div>
   </div>
 </div>
+
 @endsection

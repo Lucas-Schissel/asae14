@@ -108,19 +108,19 @@ Route::middleware(['auth'])->group(function(){
 
 	//Unidades...................................................................................
 
-	Route::get('/unidade/cadastro', 'unidadeController@telaCadastro')
+	Route::get('/unidade/cadastro', 'UnidadeController@telaCadastro')
 	->name('unidade_cadastro');
 
-	Route::get('/unidade/alterar/{id}', 'unidadeController@telaAlteracao')
+	Route::get('/unidade/alterar/{id}', 'UnidadeController@telaAlteracao')
 	->name('unidade_update');
 
-	Route::post('/unidade/adicionar', 'unidadeController@adicionar')
+	Route::post('/unidade/adicionar', 'UnidadeController@adicionar')
 	->name('unidade_add');
 
-	Route::post('/unidade/alterar/{id}', 'unidadeController@alterar')
+	Route::post('/unidade/alterar/{id}', 'UnidadeController@alterar')
 	->name('unidade_alterar');
 
-	Route::get('/unidade/excluir/{id}', 'unidadeController@excluir')
+	Route::get('/unidade/excluir/{id}', 'UnidadeController@excluir')
 	->name('unidade_delete');
 
 	});

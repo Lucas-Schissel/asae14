@@ -20,6 +20,7 @@
         <div  class="col-lg-8 col-md-12 col-sm-12 col-12 mt-4 p-5 border border-success rounded">
 
 			<form method="post" action="{{ route('venda_add') }}">
+			{{ method_field('POST') }}
 			@csrf
 
 			

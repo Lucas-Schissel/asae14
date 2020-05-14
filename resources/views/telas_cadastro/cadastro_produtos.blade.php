@@ -29,7 +29,7 @@
 
 		<div class="mt-3"></div>
 
-		<select name="id_categoria" class="form-control border border-success rounded">
+		<select name="id_categoria" class="form-control border border-success rounded" required>
 			<option value="" disabled selected>Escolha uma categoria:</option>
 			@foreach ($ctg as $c)
 			<option value="{{ $c->id}}">{{$c->nome}}</option>
@@ -38,7 +38,7 @@
 
 		<div class="mt-3"></div>
 	
-		<select name="id_unidade" class="form-control border border-success rounded">
+		<select name="id_unidade" class="form-control border border-success rounded" required>
 			<option value="" disabled selected>Escolha uma unidade:</option>
 			@foreach ($und as $u)
 			<option value="{{ $u->id}}">{{$u->nome}}</option>

@@ -27,6 +27,13 @@ class ClienteController extends Controller
     }
 
     function adicionar(Request $req){
+
+        $req->validate([
+            'nome' => 'required|min:5',
+            'login' => 'required|min:5',
+            'senha' => 'required|min:4',
+        ]);
+
     	$nome = $req->input('nome');
     	$login = $req->input('login');
         $senha = $req->input('senha');
@@ -58,6 +65,13 @@ class ClienteController extends Controller
 
     function alterar(Request $req, $id){
         if (Auth::check()){
+
+            $req->validate([
+                'nome' => 'required|min:5',
+                'login' => 'required|min:5',
+                'senha' => 'required|min:4',
+            ]);
+            
             $cli = Cliente::find($id);
 
             $nome_inicial = $cli->nome;
