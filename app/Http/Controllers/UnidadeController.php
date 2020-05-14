@@ -2,94 +2,104 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Unidade;
+use Auth;
 
 class UnidadeController extends Controller
 {
     
     function telaCadastro(){
-        if (session()->has("login")){
+        if (Auth::check()){
             return view('telas_cadastro.cadastro_unidades');
         }
-            return view('tela_login');
+        return view('auth.login');
     }
 
     function telaAlteracao($id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $unidade = Unidade::find($id);
             return view("telas_updates.alterar_unidade", [ "und" => $unidade ]);
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function adicionar(Request $req){
-        if (session()->has("login")){
+        if (Auth::check()){
+
+           $req->validate([
+                'nome' => 'required|min:2',
+            ]);
+
             $nome = $req->input('nome');
                     
             $unidade = new Unidade();
             $unidade->nome = $nome;     
 
             if ($unidade->save()){
-                echo  "<script>alert('Unidade $nome adicionada com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Unidade: $unidade->nome , foi adicionada com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Unidade $nome nao foi adicionada!!!');</script>";
+                session([
+                    'mensagem' =>"Unidade: $unidade->nome , nao foi adicionada!!!"
+                ]);
             }
             return UnidadeController::telaCadastro();
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function alterar(Request $req, $id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $unidade = Unidade::find($id);
             $nome = $req->input('nome');
 
             $unidade->nome = $nome;
             
             if ($unidade->save()){
-                echo  "<script>alert('Unidade $nome alterada com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Unidade: $unidade->nome , foi alterada com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Unidade $nome nao foi alterada!!!');</script>";
+                session([
+                    'mensagem' =>"Unidade: $unidade->nome , nao foi alterada!!!"
+                ]);
             }
 
             return UnidadeController::listar();
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function listar(){
-        if (session()->has("login")){
+        if (Auth::check()){
             $unidade = Unidade::all();
             return view("listas.lista_unidades", [ "und" => $unidade ]);
             
 		}else{
-            return view('tela_login');
+            return view('auth.login');
         }
     }
 
     function excluir($id){
-        if (session()->has("login")){
-            $unidade = Unidade::find($id);
+        if (Auth::check()){
 
-            $var = DB::table('produtos')->where('id_unidade','=',$id)->first();
-
-            if($var){
-                echo  "<script>alert('A unidade nao pode ser excluida pois existem produtos associados');</script>"; 
-            }else{
+            $unidade = Unidade::find($id);            
 
                 if ($unidade->delete()){
-                    echo  "<script>alert('Unidade $id excluída com sucesso');</script>";
+                    session([
+                        'mensagem' =>"Unidade: $unidade->nome , foi excluída com sucesso!"
+                    ]);
+                    return UnidadeController::listar();
                 } else {
-                    echo  "<script>alert('Undade $id nao foi excluída!!!');</script>";
-                }
-
-            }
-
-            return UnidadeController::listar();
+                    session([
+                        'mensagem' =>"Unidade: $unidade->nome , nao foi excluída!"
+                    ]);
+                    return UnidadeController::listar();
+                }            
         }else{
-            return view('tela_login');
+            return view('auth.login');
         }
     }
 }

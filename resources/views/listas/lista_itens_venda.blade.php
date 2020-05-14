@@ -42,7 +42,7 @@
                     <td>R$ {{$v->preco}}</td>
                     <td>R$ {{$v->pivot->subtotal}}</td>
                     <td>
-                        <a class="btn btn-danger" href="#" onclick="exclui({{ $v->pivot->id }})">
+                        <a class="delete btn btn-danger m-1" data-nome="{{ $v->nome}}" data-id="{{ $v->pivot->id}}">
                         Excluir
                         <i class="icon-trash-empty"></i>
                         </a>
@@ -63,11 +63,32 @@
 	</div>
 </div>
     
+<div class="modal fade" id="excluir" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"></h5>
+        </button>
+      </div>
+      <div class="modal-body">
+		Deseja realmente excluir o item, <span class="nome"></span>?
+        
+      </div>
+      <div class="modal-footer justify-content-center">
+		<a href="#" type="button" class="btn btn-outline-secondary delete-yes">Sim</a>
+		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-	function exclui(id){
-		if (confirm("Deseja excluir o item de id: " + id + "?")){
-			location.href = "/lista/{{ $venda->id }}/itens/remover/" + id;
-		}
-	}
+	$('.delete').on('click', function(){
+		var nome = $(this).data('nome');
+		var id = $(this).data('id'); 
+		$('span.nome').text(nome); 
+		$('a.delete-yes').attr('href', '/lista/{{ $venda->id }}/itens/remover/' + id); 
+		$('#excluir').modal('show');
+	});
 </script>
 @endsection

@@ -6,26 +6,34 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Cliente;
 use App\Venda;
+use Auth;
 
 class ClienteController extends Controller
 {   
 
     function telaCadastro(){
-        if (session()->has("login")){
-            session()->forget("login");
+        if (Auth::check()){
+            return view("telas_cadastro.cadastro_clientes");
         }
-    	return view("cadastro_clientes");
+        return view('auth.login');
     }
 
     function telaAlteracao($id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $cliente = Cliente::find($id);
             return view("telas_updates.alterar_cliente", [ "cli" => $cliente ]);
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function adicionar(Request $req){
+
+        $req->validate([
+            'nome' => 'required|min:5',
+            'login' => 'required|min:5',
+            'senha' => 'required|min:4',
+        ]);
+
     	$nome = $req->input('nome');
     	$login = $req->input('login');
         $senha = $req->input('senha');
@@ -34,7 +42,7 @@ class ClienteController extends Controller
 
         if($compara_login){
             echo  "<script>alert('O login: $login ja esta em uso!');</script>";
-            return view("cadastro_clientes");
+            return view("telas_cadastro.cadastro_clientes");
         }else{
 
             $cli = new Cliente();
@@ -43,16 +51,27 @@ class ClienteController extends Controller
             $cli->senha = $senha;
 
             if ($cli->save()){
-                echo  "<script>alert('Cliente $nome cadastrado com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Cliente: $nome, foi adicionado com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Cliente $nome nao foi cadastrado!');</script>";
+                session([
+                    'mensagem' =>"Cliente: $nome, nao foi adicionado !!!"
+                ]);
             }
-            return view('tela_login');
+            return view("telas_cadastro.cadastro_clientes");
         }
     }
 
     function alterar(Request $req, $id){
-        if (session()->has("login")){
+        if (Auth::check()){
+
+            $req->validate([
+                'nome' => 'required|min:5',
+                'login' => 'required|min:5',
+                'senha' => 'required|min:4',
+            ]);
+            
             $cli = Cliente::find($id);
 
             $nome_inicial = $cli->nome;
@@ -74,46 +93,53 @@ class ClienteController extends Controller
             }else if ($nome_inicial != $nome || $login_inicial != $login || $senha_inicial != $senha){
 
                 if ($cli->save()){
-                    echo  "<script>alert('Cliente $nome alterado com sucesso');</script>";
+                    session([
+                        'mensagem' =>"Cliente: $nome, foi alterado com sucesso!"
+                    ]);
                 } else {
-                    echo  "<script>alert('Cliente $nome nao foi alterado!');</script>";
+                    session([
+                        'mensagem' =>"Cliente: $nome, nao foi alterado !!!"
+                    ]);
                 }
                 return  ClienteController::listar();
             }else{
-                echo  "<script>alert('Ok, voce nao alterou nada, mas nao se preocupe seus dados foram preservados!!');</script>";
+                session([
+                    'mensagem' =>"Ok, voce nao alterou nada, mas nao se preocupe seus dados foram preservados!!"
+                ]);
                 return  ClienteController::listar();
             }
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function excluir($id){
-        if (session()->has("login")){        
-                $vendas = Venda::all()->where('id_usuario','=',$id);
-
-                if(count($vendas) > 0){
-                    echo  "<script>alert('O cliente nao pode ser excluido pois existem vendas associadas');</script>";
-                }else{
+        if (Auth::check()){     
+                
                     $cli = Cliente::find($id);
+                    
                     if ($cli->delete()){
-                        echo  "<script>alert('Cliente $id excluído com sucesso');</script>";
+                        session([
+                            'mensagem' =>"Cliente: $cli->nome ,foi excluído com sucesso!"
+                        ]);
+                        return ClienteController::listar();
                     } else {
-                        echo  "<script>alert('Cliente $id nao foi excluído!!!');</script>";
-                    }
-                }
-                return  ClienteController::listar();
+                        session([
+                            'mensagem' =>"Cliente: $cli->nome , nao foi excluído!"
+                        ]);
+                        return ClienteController::listar();
+                        }
         }else{
-        return view('tela_login');
+            return view('auth.login');
         }
     
     }
 
     function listar(){
-        if (session()->has("login")){
+        if (Auth::check()){
             $cliente = Cliente::all();
             return view("listas.lista_clientes", [ "cli" => $cliente ]);
 		}else{
-            return view('tela_login');
+            return view('auth.login');
         }
         
     }

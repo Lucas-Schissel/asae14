@@ -1,5 +1,6 @@
 @extends('template')
 @section('conteudo')
+
 @if (count($cli) >0)   
 
 <div class= "row">
@@ -29,12 +30,12 @@
 
 			<td>
 
-			 <a class="btn btn-warning mt-1" href="{{ route('usuario_update', [ 'id' => $c->id ])}}"> 
+			 <a class="btn btn-warning mt-1" href="{{ route('cliente_update', [ 'id' => $c->id ])}}"> 
 			 Alterar
 			 <i class="icon-arrows-cw"></i>
 			 </a>
 
-			 <a class="btn btn-danger m-1" href="" data-toggle="modal" data-target="#excluir">
+			 <a class="delete btn btn-danger m-1" data-nome="{{ $c->nome}}" data-id="{{ $c->id}}">
 			 Excluir
 			 <i class="icon-trash-empty"></i>
 			 </a>
@@ -58,7 +59,7 @@
 			<i class="icon-left-circled"></i>
 			Voltar		
 		</a>
-		<a class="btn btn-secondary m-1 p-1" type="button2" href="{{ route('usuario_cadastro') }}">
+		<a class="btn btn-secondary m-1 p-1" type="button2" href="{{ route('cliente_cadastro') }}">
 			<i class="icon-plus-circled"></i>
 			Novo			
 		</a>
@@ -73,15 +74,26 @@
         </button>
       </div>
       <div class="modal-body">
-        Deseja excluir o usuario?
+		Deseja realmente excluir o cliente, <span class="nome"></span>?
+        
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-target="#finalizar">Nao</button>
-		<a class="btn btn-info" href="/usuario/excluir/{{ $c->id }}" >Sim</a>
+      <div class="modal-footer justify-content-center">
+		<a href="#" type="button" class="btn btn-outline-secondary delete-yes">Sim</a>
+		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Não</button>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+	$('.delete').on('click', function(){
+		var nome = $(this).data('nome');
+		var id = $(this).data('id'); 
+		$('span.nome').text(nome); 
+		$('a.delete-yes').attr('href', '/cliente/excluir/' +id); 
+		$('#excluir').modal('show');
+	});
+</script>
 
 @else
     <div class="alert alert-danger m-2">

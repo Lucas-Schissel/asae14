@@ -2,141 +2,163 @@
 
 use Illuminate\Support\Facades\Route;
 
-//Clientes
+//Rotas Publicas Aplicaçao....................................................................
 
-Route::get('/usuario/cadastro', 'ClienteController@telaCadastro')
-	->name('usuario_cadastro');
+Auth::routes();
 
-Route::get('/usuario/alterar/{id}', 'ClienteController@telaAlteracao')
-	->name('usuario_update');
-	
-Route::post('/usuario/adicionar', 'ClienteController@adicionar')
-	->name('usuario_add');
+//Rotas Privadas Aplicaçao....................................................................
 
-Route::post('/usuario/alterar/{id}', 'ClienteController@alterar')
-	->name('usuario_alterar');
+Route::middleware(['auth'])->group(function(){
 
-Route::get('/usuario/excluir/{id}', 'ClienteController@excluir')
-	->name('usuario_delete');
+	Route::middleware(['admin'])->group(function(){
 
-Route::get('/usuario/listar', 'ClienteController@listar')
-	->name('usuario_listar');
+	//Clientes................................................................................
 
-//Login
+	Route::get('/cliente/cadastro', 'ClienteController@telaCadastro')
+	->name('cliente_cadastro');
 
-Route::get('/tela_login', 'AppController@tela_login')
-	->name('tela_login');
+	Route::get('/cliente/alterar/{id}', 'ClienteController@telaAlteracao')
+	->name('cliente_update');
 
-Route::post('/login', 'AppController@login')
-	->name('logar');
+	Route::post('/cliente/adicionar', 'ClienteController@adicionar')
+	->name('cliente_add');
 
-Route::get('/logout', 'AppController@logout')
-	->name('logout');
+	Route::post('/cliente/alterar/{id}', 'ClienteController@alterar')
+	->name('cliente_alterar');
 
-Route::get('/menu', 'AppController@menu')
-	->name('menu');
+	Route::get('/cliente/excluir/{id}', 'ClienteController@excluir')
+	->name('cliente_delete');
 
-Route::get('/dashboard', 'AppController@dashboard')
-	->name('dashboard');
+	Route::get('/cliente/listar', 'ClienteController@listar')
+	->name('cliente_listar');
 
-//Vendas
-Route::get('/lista/{id}/itens/remover/{id_pivot}', 'VendaController@excluirItemLista')
+	//Vendas.................................................................................
+
+	Route::get('/lista/{id}/itens/remover/{id_pivot}', 'VendaController@excluirItemLista')
 	->name('lista_item_delete');
 
-Route::get('/venda/{id}/itens/remover/{id_pivot}', 'VendaController@excluirItem')
+	Route::get('/venda/{id}/itens/remover/{id_pivot}', 'VendaController@excluirItem')
 	->name('vendas_item_delete');
 
-Route::post('/venda/{id}/itens/adicionar', 'VendaController@adicionarItem')
+	Route::post('/venda/{id}/itens/adicionar', 'VendaController@adicionarItem')
 	->name('vendas_item_add');
 
-Route::get('/venda/{id}/itens/novo', 'VendaController@telaAdicionarItem')
+	Route::get('/venda/{id}/itens/novo', 'VendaController@telaAdicionarItem')
 	->name('vendas_item_novo');
 
-Route::get('/venda/{id}/itens', 'VendaController@itensVenda')
+	Route::get('/venda/{id}/itens', 'VendaController@itensVenda')
 	->name('vendas_itens');
 
-Route::get('/venda/listar', 'VendaController@listar')
-	->name('venda_listar');
-
-Route::get('/venda/validar/{id}', 'VendaController@validar')
+	Route::get('/venda/validar/{id}', 'VendaController@validar')
 	->name('venda_validar');
 
-Route::get('/venda/cadastrar', 'VendaController@telaCadastro')
+	Route::get('/venda/cadastrar', 'VendaController@telaCadastro')
 	->name('venda_cadastro');
 
-Route::post('/venda/adicionar', 'VendaController@adicionar')
+	Route::post('/venda/adicionar', 'VendaController@adicionar')
 	->name('venda_add');
 
-Route::get('/venda/excluir/{id}', 'VendaController@excluir')
+	Route::get('/venda/excluir/{id}', 'VendaController@excluir')
 	->name('venda_delete');
 
-Route::get('venda/cliente/{id}', 'VendaController@vendasPorCliente')
+	Route::get('venda/cliente/{id}', 'VendaController@vendasPorCliente')
 	->name('vendas_cliente');
 
-Route::get('venda/total/', 'VendaController@todasVendas')
+	Route::get('venda/total/', 'VendaController@todasVendas')
 	->name('vendas_total');
 
-//Itens
+	//Itens...................................................................................
 
-Route::get('/itens/listar', 'VendaController@listar_itens')
+	Route::get('/itens/listar', 'VendaController@listar_itens')
 	->name('itens_listar');
 
-//Produtos
+	//Produtos................................................................................
 
-Route::get('/produto/cadastro', 'ProdutoController@telaCadastro')
+	Route::get('/produto/cadastro', 'ProdutoController@telaCadastro')
 	->name('produto_cadastro');
 
-Route::get('/produto/alterar/{id}', 'ProdutoController@telaAlteracao')
+	Route::get('/produto/alterar/{id}', 'ProdutoController@telaAlteracao')
 	->name('produto_update');
-	
-Route::post('/produto/adicionar', 'ProdutoController@adicionar')
+
+	Route::post('/produto/adicionar', 'ProdutoController@adicionar')
 	->name('produto_add');
 
-Route::post('/produto/alterar/{id}', 'ProdutoController@alterar')
+	Route::post('/produto/alterar/{id}', 'ProdutoController@alterar')
 	->name('produto_alterar');
 
-Route::get('/produto/excluir/{id}', 'ProdutoController@excluir')
+	Route::get('/produto/excluir/{id}', 'ProdutoController@excluir')
 	->name('produto_delete');
 
-Route::get('/produto/listar', 'ProdutoController@listar')
-	->name('produto_listar');
+	//Categorias................................................................................
 
-//Categorias
-
-Route::get('/categoria/cadastro', 'categoriaController@telaCadastro')
+	Route::get('/categoria/cadastro', 'categoriaController@telaCadastro')
 	->name('categoria_cadastro');
 
-Route::get('/categoria/alterar/{id}', 'categoriaController@telaAlteracao')
+	Route::get('/categoria/alterar/{id}', 'categoriaController@telaAlteracao')
 	->name('categoria_update');
-	
-Route::post('/categoria/adicionar', 'categoriaController@adicionar')
+
+	Route::post('/categoria/adicionar', 'categoriaController@adicionar')
 	->name('categoria_add');
 
-Route::post('/categoria/alterar/{id}', 'categoriaController@alterar')
+	Route::post('/categoria/alterar/{id}', 'categoriaController@alterar')
 	->name('categoria_alterar');
 
-Route::get('/categoria/excluir/{id}', 'categoriaController@excluir')
+	Route::get('/categoria/excluir/{id}', 'categoriaController@excluir')
 	->name('categoria_delete');
 
-Route::get('/categoria/listar', 'categoriaController@listar')
-	->name('categoria_listar');
+	//Unidades...................................................................................
 
-//Unidades
-
-Route::get('/unidade/cadastro', 'unidadeController@telaCadastro')
+	Route::get('/unidade/cadastro', 'UnidadeController@telaCadastro')
 	->name('unidade_cadastro');
 
-Route::get('/unidade/alterar/{id}', 'unidadeController@telaAlteracao')
+	Route::get('/unidade/alterar/{id}', 'UnidadeController@telaAlteracao')
 	->name('unidade_update');
-	
-Route::post('/unidade/adicionar', 'unidadeController@adicionar')
+
+	Route::post('/unidade/adicionar', 'UnidadeController@adicionar')
 	->name('unidade_add');
 
-Route::post('/unidade/alterar/{id}', 'unidadeController@alterar')
+	Route::post('/unidade/alterar/{id}', 'UnidadeController@alterar')
 	->name('unidade_alterar');
 
-Route::get('/unidade/excluir/{id}', 'unidadeController@excluir')
+	Route::get('/unidade/excluir/{id}', 'UnidadeController@excluir')
 	->name('unidade_delete');
 
-Route::get('/unidade/listar', 'unidadeController@listar')
+	});
+
+	//Area restrita aplicaçao.................................................................
+	Route::get('/menu', 'AppController@menu')
+	->name('menu');
+
+	Route::get('/dashboard', 'AppController@dashboard')
+	->name('dashboard');
+
+	Route::get('/logout', 'AppController@logout')
+	->name('logout');
+
+	//Clientes..................................................................................
+	Route::get('/cliente/listar', 'ClienteController@listar')
+	->name('cliente_listar');
+
+	//Vendas....................................................................................
+	Route::get('/venda/listar', 'VendaController@listar')
+	->name('venda_listar');
+
+	//Produtos................................................................................
+	Route::get('/produto/listar', 'ProdutoController@listar')
+	->name('produto_listar');
+
+	//Categorias...............................................................................
+	Route::get('/categoria/listar', 'categoriaController@listar')
+	->name('categoria_listar');
+
+	//Unidades..................................................................................
+	Route::get('/unidade/listar', 'unidadeController@listar')
 	->name('unidade_listar');
+
+	
+});
+
+
+
+
+

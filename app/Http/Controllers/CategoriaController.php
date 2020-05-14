@@ -5,26 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Categoria;
+use Auth;
 
 class CategoriaController extends Controller
 {
     function telaCadastro(){
-        if (session()->has("login")){
+        if (Auth::check()){
             return view('telas_cadastro.cadastro_categorias');
         }
-            return view('tela_login');
+        return view('auth.login');
     }
 
     function telaAlteracao($id){
-        if (session()->has("login")){
+        if (Auth::check()){
             $ctg = Categoria::find($id);
             return view("telas_updates.alterar_categoria", [ "ctg" => $ctg ]);
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function adicionar(Request $req){
-        if (session()->has("login")){
+        if (Auth::check()){
+
+            $req->validate([
+                'nome' => 'required|min:5',
+                'descricao' => 'required|min:5',
+            ]);
+
             $nome = $req->input('nome');
             $descricao = $req->input('descricao');
                     
@@ -33,17 +40,27 @@ class CategoriaController extends Controller
             $ctg->descricao = $descricao;       
 
             if ($ctg->save()){
-                echo  "<script>alert('Categoria $nome adicionada com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Categoria: $nome, foi adicionada com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Categoria $nome nao foi adicionada!!!');</script>";
+                session([
+                    'mensagem' =>"Categoria: $nome, nao adicionada !!!"
+                ]);
             }
             return CategoriaController::telaCadastro();
         }
-        return view('tela_login');
+        return view('auth.login');
     }
 
     function alterar(Request $req, $id){
-        if (session()->has("login")){
+        if (Auth::check()){
+
+            $req->validate([
+                'nome' => 'required|min:5',
+                'descricao' => 'required|min:5',
+            ]);
+
             $ctg = Categoria::find($id);
             $nome = $req->input('nome');
             $descricao = $req->input('descricao');
@@ -53,48 +70,50 @@ class CategoriaController extends Controller
             
         
             if ($ctg->save()){
-                echo  "<script>alert('Categoria $nome alterada com Sucesso!');</script>";
+                session([
+                    'mensagem' =>"Categoria: $nome, foi alterada com sucesso!"
+                ]);
             } else {
-                echo  "<script>alert('Categoria $nome nao foi alterada!!!');</script>";
+                session([
+                    'mensagem' =>"Categoria: $nome, nao alterada !!!"
+                ]);
             }
 
             return CategoriaController::listar();
         }
-        return view('tela_login');    
+        return view('auth.login'); 
         
     }
 
     function listar(){
-        if (session()->has("login")){
+        if (Auth::check()){
             $ctg = Categoria::all();
             return view("listas.lista_categorias", [ "ctg" => $ctg ]);
             
 		}else{
-            return view('tela_login');
+            return view('auth.login');
         }
     }
 
     function excluir($id){
-        if (session()->has("login")){
+        if (Auth::check()){
+
             $ctg = Categoria::find($id);
 
-            $var = DB::table('produtos')->where('id_categoria','=',$id)->first();
-
-            if($var){
-                echo  "<script>alert('A categoria nao pode ser excluida pois existem produtos associados');</script>"; 
-            }else{
-
                 if ($ctg->delete()){
-                    echo  "<script>alert('Categoria $id excluída com sucesso');</script>";
+                    session([
+                        'mensagem' =>"Categoria: $ctg->nome , foi excluída com sucesso!"
+                    ]);
+                    return CategoriaController::listar();
                 } else {
-                    echo  "<script>alert('Categoria $id nao foi excluída!!!');</script>";
+                    session([
+                        'mensagem' =>"Categoria: $ctg->nome , nao foi excluída!"
+                    ]);
+                    return CategoriaController::listar();
                 }
-
-            }
-
-            return CategoriaController::listar();
+            
         }else{
-            return view('tela_login');
+            return view('auth.login');
         }
     }
 
